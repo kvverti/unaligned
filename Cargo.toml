@@ -8,5 +8,8 @@ keywords = ["unaligned", "move", "only", "cell", "storage"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+std = []
+
 [dependencies]
-drop_guard = "0.3"
+scopeguard = "1.1"
