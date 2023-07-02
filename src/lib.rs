@@ -1,4 +1,4 @@
-//! A `#![no_std]` crate containing typess for encapsulating unaligned values.
+//! A `#![no_std]` crate containing types for encapsulating unaligned values.
 //! 
 //! The primary type this crate provides is [`Unaligned<T>`], which stores a value of type `T` unaligned. 
 //! Storing values unalgined can be an alternative to using `#[repr(packed)]` structs (which can only be used
