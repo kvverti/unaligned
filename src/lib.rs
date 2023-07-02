@@ -1,7 +1,7 @@
 //! A `#![no_std]` crate containing types for encapsulating unaligned values.
 //! 
 //! The primary type this crate provides is [`Unaligned<T>`], which stores a value of type `T` unaligned. 
-//! Storing values unalgined can be an alternative to using `#[repr(packed)]` structs (which can only be used
+//! Storing values unaligned can be an alternative to using `#[repr(packed)]` structs (which can only be used
 //! unsafely) or carefully-sized byte arrays. The [`Unaligned<T>`] type exposes a safe mutable API for working
 //! with unaligned values, while the companion type [`UnalignedCell<T>`] is an interior mutability type that
 //! provides a shared mutable API for working with unaligned values.

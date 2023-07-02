@@ -71,7 +71,7 @@ impl Display for BorrowError {
 /// A cell that provides unaligned storage for a value of type `T`. This type offers a more flexible shared API, at the
 /// expense of thread safety. Note that this type is not necessarily zero-overhead in terms of size.
 ///
-/// Because this type stores the inner value unaligned, care must be taken not to invoke more than one of this type's methods
+/// Because this type only allows exclusive access to its contents, care must be taken not to borrow the contents more than once
 /// concurrently. If concurrent access is detected, methods of this type will panic.
 pub struct UnalignedCell<T>(Cell<OptUnaligned<T>>);
 
@@ -81,7 +81,7 @@ impl<T> UnalignedCell<T> {
         Self(Cell::new(OptUnaligned::some(value)))
     }
 
-    /// Consume this cell and return the inner value.
+    /// Consume this cell and return its contents.
     pub fn into_inner(self) -> T {
         self.0
             .into_inner()
@@ -90,7 +90,7 @@ impl<T> UnalignedCell<T> {
             .into_inner()
     }
 
-    /// Get a raw pointer to the inner value. Note that if the inner value is borrowed, then the returned pointer will
+    /// Get a raw pointer to the contents of this cell. Note that if the contents are borrowed, then the returned pointer will
     /// be invalid until the borrow is relinquished.
     ///
     /// **Caution:** The returned pointer is almost certainly unaligned. You should only perform operations that
@@ -103,15 +103,15 @@ impl<T> UnalignedCell<T> {
         unsafe { OptUnaligned::project_ptr(self.0.as_ptr()) }
     }
 
-    /// Mutably borrow the inner value. The value cannot be borrowed again until the returnd `RefMut` is destroyed.
+    /// Mutably borrow the contents of this cell. The contents cannot be borrowed again until the returnd `RefMut` is destroyed.
     ///
     /// ## Panics
-    /// This method panics if the inner value is currently borrowed.
+    /// This method panics if the contents are currently borrowed.
     pub fn borrow(&self) -> RefMut<'_, T> {
         self.try_borrow().expect("value should not be borrowed")
     }
 
-    /// Mutably borrow the inner value. If the value is already borrowed, this method returns an error.
+    /// Mutably borrow the contents of this cell. If the contents are already borrowed, this method returns an error.
     /// 
     /// ## Example
     /// ```
@@ -131,7 +131,7 @@ impl<T> UnalignedCell<T> {
         })
     }
 
-    /// Get a mutable reference to the unaligned inner value. Because this method takes `self` by mutable reference,
+    /// Get a mutable reference to the unaligned contents. Because this method takes `self` by mutable reference,
     /// no runtime checks are needed.
     /// 
     /// ## Example
