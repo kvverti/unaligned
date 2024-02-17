@@ -170,8 +170,8 @@ impl<T> UnalignedCell<T> {
     /// ```
     /// # use unaligned::cell::UnalignedCell;
     /// let cell = UnalignedCell::new(42);
-    /// let sum = cell.replace_with(|val| *val + 28);
-    /// assert_eq!(42, sum);
+    /// let original = cell.replace_with(|val| *val + 28);
+    /// assert_eq!(42, original);
     /// assert_eq!(UnalignedCell::new(70), cell);
     /// ```
     pub fn replace_with<F>(&self, f: F) -> T
