@@ -219,10 +219,6 @@ impl<T: Copy> Clone for Unaligned<T> {
     fn clone(&self) -> Self {
         *self
     }
-
-    fn clone_from(&mut self, source: &Self) {
-        *self = *source;
-    }
 }
 
 impl<T: Copy> Copy for Unaligned<T> {}
